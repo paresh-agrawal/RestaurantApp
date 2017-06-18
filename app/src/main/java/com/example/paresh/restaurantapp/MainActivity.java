@@ -20,6 +20,6 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(launchIntent);
                 MainActivity.this.finish();
             }
-        }, 1000);
+        }, 2000);
     }
 }

@@ -20,11 +20,10 @@ import java.util.TimerTask;
 class CustomPagerAdapter extends PagerAdapter {
 
     int[] mResources = {
-            R.drawable.first,
+            R.drawable.fifth,
             R.drawable.second,
             R.drawable.third,
-            R.drawable.fourth,
-            R.drawable.fifth
+            R.drawable.fourth
     };
     Context mContext;
     LayoutInflater mLayoutInflater;

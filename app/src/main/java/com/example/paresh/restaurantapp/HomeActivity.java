@@ -55,7 +55,7 @@ public class HomeActivity extends AppCompatActivity
         home_contact_us = (LinearLayout)findViewById(R.id.home_contact_us);
         home_offers = (LinearLayout)findViewById(R.id.home_offers);
 
-        onTouch();
+        //onTouch();
         TextView book = (TextView)findViewById(R.id.book_a_table);
         book.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,8 +74,37 @@ public class HomeActivity extends AppCompatActivity
         tabLayout.setupWithViewPager(mViewPager, true);
         mViewPager.setAdapter(mCustomPagerAdapter);
 
+        home_find_us.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                home_find_us.setOnTouchListener(new View.OnTouchListener()
+                {
 
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        // TODO Auto-generated method stub
+                        switch(event.getAction())
+                        {
+                            case MotionEvent.ACTION_DOWN:
+                                home_find_us.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                break;
+                            default:
+                                //set color back to default
+                                home_find_us.setBackgroundColor(Color.TRANSPARENT);
+                                break;
+                        }
+                        return true;
+                    }
+                });
+                findUs();
+            }
+        });
         pageSwitcher();
+    }
+
+    private void findUs() {
+        final Intent exampleIntent = new Intent(HomeActivity.this, FindUs.class);
+        HomeActivity.this.startActivity(exampleIntent);
     }
 
     public void pageSwitcher() {
@@ -94,7 +123,7 @@ public class HomeActivity extends AppCompatActivity
             runOnUiThread(new Runnable() {
                 public void run() {
 
-                    if (page > 4) { // In my case the number of pages are 5
+                    if (page > 3) { // In my case the number of pages are 5
                         timer.cancel();
                         page = 0;
                         pageSwitcher();
@@ -272,7 +301,8 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_menu) {
 
         } else if (id == R.id.nav_find_us) {
-
+            final Intent findUsIntent = new Intent(HomeActivity.this, FindUs.class);
+            HomeActivity.this.startActivity(findUsIntent);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_share) {
