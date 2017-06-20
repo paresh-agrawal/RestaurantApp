@@ -10,14 +10,18 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -47,13 +51,13 @@ public class FindUs extends AppCompatActivity
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
+    private CoordinatorLayout coordinateLayout;
+    private LinearLayout start_navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.find_us);
 
         ActionBar actionBar = getSupportActionBar();
@@ -64,8 +68,19 @@ public class FindUs extends AppCompatActivity
             checkLocationPermission();
         }
 
+        coordinateLayout = (CoordinatorLayout)findViewById(R.id.coordinatorLayout);
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        start_navigation = (LinearLayout)findViewById(R.id.start_navigation);
         mapFrag.getMapAsync(this);
+
+        start_navigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("http://maps.google.com/maps?daddr=21.157660, 79.075830"));
+                startActivity(intent);
+            }
+        });
     }
 
     private void goToLocationZoom(double lat, double lng, float zoom) {
@@ -97,7 +112,11 @@ public class FindUs extends AppCompatActivity
         mGoogleMap=googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         goToLocationZoom(21.157660, 79.075830, 18);
-        Toast.makeText(this, "Make sure location services is enabled", Toast.LENGTH_LONG).show();
+        /*Snackbar snackbar = Snackbar
+                .make(coordinateLayout,"Click on the pin for Navigation", Snackbar.LENGTH_LONG);
+
+        snackbar.show();
+        */
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -26,7 +27,7 @@ import java.util.TimerTask;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Timer timer;
+    Timer timer,colorTimer;
     int page = 0;
     CustomPagerAdapter mCustomPagerAdapter;
     ViewPager mViewPager;
@@ -77,34 +78,128 @@ public class HomeActivity extends AppCompatActivity
         home_find_us.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                home_find_us.setOnTouchListener(new View.OnTouchListener()
-                {
-
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        // TODO Auto-generated method stub
-                        switch(event.getAction())
-                        {
-                            case MotionEvent.ACTION_DOWN:
-                                home_find_us.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                                break;
-                            default:
-                                //set color back to default
-                                home_find_us.setBackgroundColor(Color.TRANSPARENT);
-                                break;
-                        }
-                        return true;
-                    }
-                });
                 findUs();
+            }
+        });
+        home_contact_us.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                contactUs();
+            }
+        });
+        home_gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                galleryView();
             }
         });
         pageSwitcher();
     }
 
-    private void findUs() {
-        final Intent exampleIntent = new Intent(HomeActivity.this, FindUs.class);
-        HomeActivity.this.startActivity(exampleIntent);
+    public void findUs() {
+        colorTimer = new Timer(); // At this line a new Thread will be created
+        colorTimer.scheduleAtFixedRate(new find_us(), 0, 80); // delay
+    }
+
+    public void galleryView() {
+        colorTimer = new Timer(); // At this line a new Thread will be created
+        colorTimer.scheduleAtFixedRate(new gallery_view(), 0, 80); // delay
+    }
+
+    public void contactUs() {
+        colorTimer = new Timer(); // At this line a new Thread will be created
+        colorTimer.scheduleAtFixedRate(new contact_us(), 0, 80); // delay
+    }
+
+
+    class find_us extends TimerTask {
+        final int[] a = {0};
+        @Override
+        public void run() {
+            // As the TimerTask run on a seprate thread from UI thread we have
+            // to call runOnUiThread to do work on UI thread.
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (a[0] ==0){
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            home_find_us.setBackground(getResources().getDrawable(R.color.colorPrimary));
+                            a[0] =1;
+                        }
+                    }
+                    else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            home_find_us.setBackgroundColor(Color.TRANSPARENT);
+                            a[0] =0;
+                            colorTimer.cancel();
+                            final Intent exampleIntent = new Intent(HomeActivity.this, FindUs.class);
+                            HomeActivity.this.startActivity(exampleIntent);
+                        }
+                    }
+
+                }
+            });
+
+        }
+    }
+
+    class contact_us extends TimerTask {
+        final int[] a = {0};
+        @Override
+        public void run() {
+            // As the TimerTask run on a seprate thread from UI thread we have
+            // to call runOnUiThread to do work on UI thread.
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (a[0] ==0){
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            home_contact_us.setBackground(getResources().getDrawable(R.color.colorPrimary));
+                            a[0] =1;
+                        }
+                    }
+                    else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            home_contact_us.setBackgroundColor(Color.TRANSPARENT);
+                            a[0] =0;
+                            colorTimer.cancel();
+                            final Intent exampleIntent = new Intent(HomeActivity.this, ContactUs.class);
+                            HomeActivity.this.startActivity(exampleIntent);
+                        }
+                    }
+
+                }
+            });
+
+        }
+    }
+
+    class gallery_view extends TimerTask {
+        final int[] a = {0};
+        @Override
+        public void run() {
+            // As the TimerTask run on a seprate thread from UI thread we have
+            // to call runOnUiThread to do work on UI thread.
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (a[0] ==0){
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            home_gallery.setBackground(getResources().getDrawable(R.color.colorPrimary));
+                            a[0] =1;
+                        }
+                    }
+                    else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            home_gallery.setBackgroundColor(Color.TRANSPARENT);
+                            a[0] =0;
+                            colorTimer.cancel();
+                            final Intent exampleIntent = new Intent(HomeActivity.this, GalleryView.class);
+                            HomeActivity.this.startActivity(exampleIntent);
+                        }
+                    }
+
+                }
+            });
+
+        }
     }
 
     public void pageSwitcher() {
@@ -304,11 +399,13 @@ public class HomeActivity extends AppCompatActivity
             final Intent findUsIntent = new Intent(HomeActivity.this, FindUs.class);
             HomeActivity.this.startActivity(findUsIntent);
         } else if (id == R.id.nav_gallery) {
-
+            final Intent findUsIntent = new Intent(HomeActivity.this, GalleryView.class);
+            HomeActivity.this.startActivity(findUsIntent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_contact_us) {
-
+            final Intent findUsIntent = new Intent(HomeActivity.this, ContactUs.class);
+            HomeActivity.this.startActivity(findUsIntent);
         } else if (id == R.id.nav_offers) {
 
         } else if (id == R.id.nav_about_us) {

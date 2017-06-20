@@ -44,6 +44,7 @@
             android:gravity="center"
             android:orientation="vertical"
             android:id="@+id/home_book_a_table"
+            android:background="@drawable/on_pressed"
             android:layout_weight="50">
             <ImageView
                 android:layout_width="45dp"
@@ -132,6 +133,7 @@
                 android:layout_marginTop="5dp"
                 android:text="Find Us"/>
         </LinearLayout>
+
     </LinearLayout>
 
     <View
