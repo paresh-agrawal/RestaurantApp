@@ -62,7 +62,7 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-                String name = sharedPreferences.getString("name","not got");
+                String name = sharedPreferences.getString("menu_item","not got");
                 TextView name1 = (TextView)findViewById(R.id.menu);
                 name1.setText(name);
             }
@@ -93,6 +93,12 @@ public class HomeActivity extends AppCompatActivity
                 galleryView();
             }
         });
+        home_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuActivity();
+            }
+        });
         pageSwitcher();
     }
 
@@ -109,6 +115,11 @@ public class HomeActivity extends AppCompatActivity
     public void contactUs() {
         colorTimer = new Timer(); // At this line a new Thread will be created
         colorTimer.scheduleAtFixedRate(new contact_us(), 0, 80); // delay
+    }
+
+    public void menuActivity() {
+        colorTimer = new Timer(); // At this line a new Thread will be created
+        colorTimer.scheduleAtFixedRate(new menu_activity(), 0, 80); // delay
     }
 
 
@@ -192,6 +203,36 @@ public class HomeActivity extends AppCompatActivity
                             a[0] =0;
                             colorTimer.cancel();
                             final Intent exampleIntent = new Intent(HomeActivity.this, GalleryView.class);
+                            HomeActivity.this.startActivity(exampleIntent);
+                        }
+                    }
+
+                }
+            });
+
+        }
+    }
+
+    class menu_activity extends TimerTask {
+        final int[] a = {0};
+        @Override
+        public void run() {
+            // As the TimerTask run on a seprate thread from UI thread we have
+            // to call runOnUiThread to do work on UI thread.
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (a[0] ==0){
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            home_menu.setBackground(getResources().getDrawable(R.color.colorPrimary));
+                            a[0] =1;
+                        }
+                    }
+                    else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            home_menu.setBackgroundColor(Color.TRANSPARENT);
+                            a[0] =0;
+                            colorTimer.cancel();
+                            final Intent exampleIntent = new Intent(HomeActivity.this, MenuActivity.class);
                             HomeActivity.this.startActivity(exampleIntent);
                         }
                     }
@@ -394,7 +435,8 @@ public class HomeActivity extends AppCompatActivity
             final Intent exampleIntent = new Intent(HomeActivity.this, Example.class);
             HomeActivity.this.startActivity(exampleIntent);
         } else if (id == R.id.nav_menu) {
-
+            final Intent findUsIntent = new Intent(HomeActivity.this, MenuActivity.class);
+            HomeActivity.this.startActivity(findUsIntent);
         } else if (id == R.id.nav_find_us) {
             final Intent findUsIntent = new Intent(HomeActivity.this, FindUs.class);
             HomeActivity.this.startActivity(findUsIntent);

@@ -28,10 +28,7 @@ public class GalleryView extends AppCompatActivity {
 
         ImageView iv_gallery = (ImageView)findViewById(R.id.iv_gallery);
 
-        Glide.with(GalleryView.this /* context */)
-                .using(new FirebaseImageLoader())
-                .load(storageReference)
-                .into(imageView);
+
 
     }
 }

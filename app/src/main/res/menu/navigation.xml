@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_specials"
+        android:icon="@drawable/ic_specials"
+        android:title="Our Specials" />
+
+    <item
+        android:id="@+id/navigation_food_menu"
+        android:icon="@drawable/ic_food_menu"
+        android:title="Food Menu" />
+
+
+    <item
+        android:id="@+id/navigation_dessert_and_beverages"
+        android:icon="@drawable/ic_dessert_beverage"
+        android:title="Dessert n Beverages" />
+</menu>

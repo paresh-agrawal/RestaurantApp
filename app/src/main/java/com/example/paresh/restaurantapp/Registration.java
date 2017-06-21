@@ -36,7 +36,7 @@ public class Registration extends AppCompatActivity {
             public void onClick(View v) {
                 SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("name", name.getText().toString());
+                editor.putString("menu_item", name.getText().toString());
                 editor.commit();
             }
         });
